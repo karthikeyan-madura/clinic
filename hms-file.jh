@@ -1,0 +1,71 @@
+// JDL definition for application 'hospital' generated with command 'jhipster export-jdl'
+
+entity Department (department) {
+  name String
+}
+entity Doctor (doctor) {
+  fname String,
+  lname String,
+  dateOfBirth LocalDate,
+  email String,
+  phoneNumber String,
+  degree String,
+  position String
+}
+entity Patient (patient) {
+  fname String,
+  lname String,
+  dateOfBirth LocalDate,
+  email String,
+  phoneNumber String,
+  bloodType BloodTypes,
+  otherInfo String
+}
+entity OtherEmployees (other_employees) {
+  fname String,
+  lname String,
+  dateOfBirth LocalDate,
+  email String,
+  phoneNumber String,
+  position EmployeePositions
+}
+entity Examinations (examinations) {
+  date LocalDate,
+  conclusion String
+}
+
+enum BloodTypes {
+  OPLUS,
+   OMINUS,
+   APLUS,
+   AMINUS,
+   BPLUS,
+   BMINUS,
+   ABPLUS,
+   ABMINUS
+}
+
+
+enum EmployeePositions {
+   NURSE,
+   JANITOR,
+   CLEANER,
+   HR,
+   LAW,
+   DOCTOR,
+   PHARMACY,
+   LAB,
+   ADMIN,
+   OTHER
+}
+
+relationship OneToMany {
+  Department{doctor} to Doctor{department(name)},
+  Doctor{patient} to Patient{doctor required},
+  Doctor{examinations} to Examinations{doctor required},
+  Patient{examinations} to Examinations{patient required}
+}
+
+dto Department, Doctor, Patient, OtherEmployees, Examinations with mapstruct
+paginate Department, Doctor, Patient, OtherEmployees, Examinations with pager
+service Doctor, Patient with serviceClass
